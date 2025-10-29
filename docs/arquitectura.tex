@@ -1,0 +1,160 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{array}
+
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue
+}
+
+\lstset{
+  language=Java,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{javapurple}\bfseries,
+  stringstyle=\color{javagreen},
+  commentstyle=\color{javacomment},
+  numbers=left,
+  frame=single,
+  breaklines=true
+}
+
+\renewcommand{\lstlistingname}{Código}
+
+\title{Simulación de Cafetería con Programación Concurrente}
+\author{Pedro José Meixús Belsol}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introducción}
+
+La aplicación desarrollada simula el funcionamiento de una cafetería donde los clientes llegan, esperan ser atendidos por camareros, y se marchan tras recibir su pedido o si se cansan de esperar. Esta simulación utiliza hilos en Java para representar los diferentes actores (clientes y camareros) que actúan de forma independiente. Se le ha añadido una interfaz gráfica que ayuda a su visualización.
+
+\section{Arquitectura del Sistema}
+
+\subsection{Diagrama de Clases}
+
+A continuación veremos las clases principales:
+
+\begin{itemize}
+    \item \textbf{Cliente}: Representa a una persona que entra a la cafetería, espera ser atendida, y puede marcharse si espera demasiado tiempo.
+    \item \textbf{Camarero}: Representa a un empleado que atiende a los clientes preparándoles café.
+    \item \textbf{Cafeteria}: Gestiona la lista de clientes y la asignación de estos a los camareros.
+    \item \textbf{Main}: Clase que carga el FXML e inicializa el programa.
+    \item \textbf{CafeteriaTrigger}: Interfaz que manda una señal a la UI para que realice un cambio.
+    \item \textbf{HelloController}: Clase que implementa la interfaz 'CafeteriaTrigger', gestiona el flujo del programa e indica que hacer cuando recibe cada trigger.
+\end{itemize}
+
+\subsection{Relaciones entre Clases}
+
+\begin{itemize}
+    \item \textbf{Cafetería} mantiene listas de clientes y gestiona su estado.
+    \item \textbf{Cliente} y \textbf{Camarero} son subclases de \texttt{Thread}, lo que les permite ejecutarse como hilos independientes.
+    \item Los \textbf{Clientes} se registran en la \textbf{Cafetería} al llegar.
+    \item Los \textbf{Camareros} consultan a la \textbf{Cafetería} para obtener el siguiente cliente a atender.
+    \item \textbf{CafeteriaTrigger} envía los triggers a \textbf{HelloController}.
+    \item \textbf{HelloController} recibe los triggers de \textbf{CafeteriaTrigger} y da una orden en consecuencia.
+\end{itemize}
+
+\section{Implementación de la Concurrencia}
+
+\subsection{Modelo de Hilos}
+
+Cada cliente y camarero se ejecuta como un hilo independiente:
+
+\begin{itemize}
+    \item \textbf{Hilos de Cliente}: Simulan clientes que llegan a la cafetería con tiempos aleatorios, esperan ser atendidos durante un tiempo máximo predefinido, y se marchan si no son atendidos.
+    \item \textbf{Hilos de Camarero}: Buscan clientes para atender, simulan la preparación del café, y entregan la bebida al cliente.
+\end{itemize}
+
+\subsection{Control de Concurrencia}
+
+Para garantizar que dos camareros no atiendan al mismo cliente, se implementó:
+
+\begin{itemize}
+    \item \textbf{Estado de proceso}: Cada cliente tiene un atributo \texttt{enProceso} que se activa cuando un camarero comienza a atenderlo.
+    \item \textbf{Lista de clientes en atención}: La cafetería mantiene un registro de los clientes que están siendo atendidos.
+    \item \textbf{Secuenciación de inicio}: Los camareros se inician con una pequeña diferencia de tiempo para reducir colisiones iniciales.
+\end{itemize}
+
+\section{Interfaz Gráfica de Usuario}
+
+\subsection{Componentes de la Interfaz}
+
+La interfaz gráfica está implementada utilizando JavaFX y está compuesta por los siguientes elementos:
+
+\begin{itemize}
+    \item \textbf{Listas visuales (ListView)}: Seis listas que muestran el estado de los diferentes actores:
+    \begin{itemize}
+        \item \texttt{listaClientesLlegan}: Muestra los clientes que acaban de llegar a la cafetería.
+        \item \texttt{listaClientesAtendidos}: Muestra los clientes que ya han sido atendidos completamente.
+        \item \texttt{listaClientesSiendoAtendidos}: Muestra los clientes que están siendo atendidos en este momento.
+        \item \texttt{listaClientesSeVan}: Muestra los clientes que se han marchado sin ser atendidos.
+        \item \texttt{listaCamarerosTrabajando}: Muestra los camareros que están trabajando actualmente.
+        \item \texttt{listaCamarerosTerminaron}: Muestra los camareros que han terminado su turno.
+    \end{itemize}
+    \item \textbf{Botón de inicio}: Permite iniciar la simulación de la cafetería.
+\end{itemize}
+
+\subsection{Flujo de Actualización de la Interfaz}
+
+El flujo de actualización de la interfaz se gestiona mediante el patrón Observer, donde:
+
+\begin{enumerate}
+    \item La clase \texttt{CafeteriaTrigger} actúa como una interfaz que define los eventos que pueden ocurrir en la simulación:
+    \begin{itemize}
+        \item \texttt{clienteLlega}: Cuando un cliente nuevo llega a la cafetería.
+        \item \texttt{clienteSiendoAtendido}: Cuando un camarero comienza a atender a un cliente.
+        \item \texttt{clienteSeVa}: Cuando un cliente abandona la cafetería sin ser atendido.
+        \item \texttt{clienteAtendido}: Cuando un cliente ha sido atendido completamente.
+        \item \texttt{camareroTrabajando}: Cuando un camarero está trabajando.
+        \item \texttt{camareroTermina}: Cuando un camarero termina su turno.
+    \end{itemize}
+    
+    \item La clase \texttt{HelloController} implementa esta interfaz y se encarga de:
+    \begin{itemize}
+        \item Gestionar las (\texttt{ObservableList}) para cada categoría de actores.
+        \item Actualizar la interfaz gráfica en respuesta a los eventos recibidos.
+        \item Utilizar \texttt{Platform.runLater()} para asegurar que todas las actualizaciones de UI se ejecutan en el hilo de JavaFX.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Flujo de Inicio}
+
+Al iniciar la aplicación:
+
+\begin{enumerate}
+    \item Se inicializan las listas visuales y se asocian con sus respectivas colecciones observables.
+    \item Se crea la instancia de la cafetería y se le asigna el trigger (controlador).
+    \item Se crean las instancias de clientes y camareros con sus parámetros específicos.
+    \item Se inician los hilos de clientes y camareros con una pequeña diferencia temporal para reducir conflictos iniciales.
+    \item La interfaz comienza a recibir notificaciones y a actualizarse en tiempo real, mostrando el estado de la simulación.
+\end{enumerate}
+
+\section{Casos de uso}
+Ahora se describirá el diagrama de casos de uso del sistema.
+\begin{center}
+\begin{tabular}{ | m{10em} | m{20em}|} 
+  \hline
+  \textbf{Caso de uso} & \textbf{Descripción}\\
+  \hline
+  Botón iniciar & El usuario puede pulsar el botón en la parte superior para iniciar la simulación\\
+  \hline
+\end{tabular}
+\end{center}
+
+\end{document}
