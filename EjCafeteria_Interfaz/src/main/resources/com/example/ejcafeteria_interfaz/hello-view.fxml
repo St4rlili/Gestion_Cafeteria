@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ejcafeteria_interfaz.HelloController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="10.0" prefHeight="91.0" prefWidth="800.0" style="-fx-background-color: #ebe68a;" AnchorPane.rightAnchor="-1.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="37.0" prefWidth="149.0" style="-fx-padding: 5px; -fx-border-width: 0px 3px 3px 3px; -fx-border-color: black;" text="CAFETERÍA">
+               <font>
+                  <Font name="JetBrains Mono ExtraBold" size="24.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#iniciar" prefHeight="45.0" prefWidth="189.0" style="-fx-padding: 7.5px; -fx-border-insets: 5px; -fx-background-insets: 5px; -fx-background-color: #9cb39a; -fx-border-color: black;" text="INICIAR" />
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutY="91.0" prefHeight="525.0" prefWidth="800.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="140.0" style="-fx-background-color: #9cb39a; -fx-padding: 10px; -fx-border-insets: 10px; -fx-background-insets: 10px;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="129.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 1px 0px;" text="EN ESPERA">
+                     <font>
+                        <Font name="JetBrains Mono SemiBold" size="11.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="listaClientesLlegan" prefHeight="430.0" prefWidth="110.0" />
+               </children></VBox>
+            <VBox layoutX="323.0" layoutY="10.0" prefHeight="200.0" prefWidth="140.0" style="-fx-background-color: #9cb39a; -fx-padding: 10px; -fx-border-insets: 10px; -fx-background-insets: 10px;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="129.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 1px 0px;" text="SIENDO ATENDIDO">
+                     <font>
+                        <Font name="JetBrains Mono SemiBold" size="11.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="listaClientesSiendoAtendidos" prefHeight="430.0" prefWidth="110.0" />
+               </children>
+            </VBox>
+            <VBox layoutX="235.0" layoutY="10.0" prefHeight="200.0" prefWidth="140.0" style="-fx-background-color: #9cb39a; -fx-padding: 10px; -fx-border-insets: 10px; -fx-background-insets: 10px;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="129.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 1px 0px;" text="YA ATENDIDO">
+                     <font>
+                        <Font name="JetBrains Mono SemiBold" size="11.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="listaClientesAtendidos" prefHeight="430.0" prefWidth="113.0" />
+               </children>
+            </VBox>
+            <VBox layoutX="148.0" layoutY="10.0" prefHeight="200.0" prefWidth="140.0" style="-fx-background-color: #9cb39a; -fx-padding: 10px; -fx-border-insets: 10px; -fx-background-insets: 10px;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="129.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 1px 0px;" text="SE FUE">
+                     <font>
+                        <Font name="JetBrains Mono SemiBold" size="11.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="listaClientesSeVan" prefHeight="430.0" prefWidth="110.0" />
+               </children>
+            </VBox>
+            <VBox layoutX="60.0" layoutY="10.0" prefHeight="200.0" prefWidth="140.0" style="-fx-background-color: #9cb39a; -fx-padding: 10px; -fx-border-insets: 10px; -fx-background-insets: 10px;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="129.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 1px 0px;" text="TRABAJANDO">
+                     <font>
+                        <Font name="JetBrains Mono SemiBold" size="11.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="listaCamarerosTrabajando" prefHeight="430.0" prefWidth="110.0" />
+               </children>
+            </VBox>
+            <VBox layoutX="340.0" layoutY="10.0" prefHeight="200.0" prefWidth="140.0" style="-fx-background-color: #9cb39a; -fx-padding: 10px; -fx-border-insets: 10px; -fx-background-insets: 10px;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="129.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 1px 0px;" text="TERMINÓ TRABAJO">
+                     <font>
+                        <Font name="JetBrains Mono SemiBold" size="11.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="listaCamarerosTerminaron" prefHeight="430.0" prefWidth="110.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
